@@ -49,6 +49,7 @@
     <Compile Include="Halp\ConsoleMock.cs" />
     <Compile Include="ConsoleTableDisplaySpecification.cs" />
     <Compile Include="ConsoleUiSpec.cs" />
+    <Compile Include="InputLoopSpec.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SubscriberStoreSpec.cs" />
     <Compile Include="UserCommandFactorySpec.cs" />
