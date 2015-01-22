@@ -5,6 +5,9 @@ namespace Tarnas.ConsoleUi
         private readonly Console _console;
         private readonly ConsoleUi _consoleUi;
 
+        public InputLoop() : this(new SystemConsole(), new ConsoleUi())
+        {}
+
         public InputLoop(Console console, ConsoleUi consoleUi)
         {
             _console = console;
