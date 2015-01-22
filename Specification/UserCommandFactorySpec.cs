@@ -6,20 +6,19 @@
     [TestFixture]
     class UserCommandFactorySpec
     {
-        private CleverFactory _factory;
+        private StandardUserCommandFactory _factory;
 
         [SetUp]
         public void Setup()
         {
-            _factory = new CleverFactory();
+            _factory = new StandardUserCommandFactory();
         }
 
         [Test]
-        public void ShouldCreateUserCommand()
+        [TestCase("/testName")]
+        [TestCase("   /testName")]
+        public void ShouldCreateUserCommand(string userInput)
         {
-            //given
-            const string userInput = "/testName";
-
             //when
             var userCommand = _factory.CreateUserCommand(userInput);
 
@@ -85,6 +84,32 @@
             Assert.That(userCommand.Params.Count, Is.EqualTo(0));
             Assert.That(userCommand.Flags.Count, Is.EqualTo(1));
             Assert.That(userCommand.Flags, Contains.Item("flag"));
+        }
+
+        [Test]
+        [ExpectedException(typeof(InvalidCommandStringException))]
+        [TestCase("")]
+        [TestCase("   ")]
+        public void ShouldNotAcceptEmptyInput(string userInput)
+        {
+            //when
+            _factory.CreateUserCommand(userInput);
+        }
+
+        [Test]
+        [ExpectedException(typeof(InvalidCommandStringException))]
+        public void ShouldNotAcceptInputsWithoutLeadingSlash()
+        {
+            //when
+            _factory.CreateUserCommand("something something");
+        }
+
+        [Test]
+        [ExpectedException(typeof(InvalidCommandStringException))]
+        public void ShouldNotAcceptInputsWithNullCommandName()
+        {
+            //when
+            _factory.CreateUserCommand("/ something");
         }
     }
 }

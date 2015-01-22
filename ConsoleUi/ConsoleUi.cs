@@ -5,7 +5,7 @@ namespace Tarnas.ConsoleUi
         private readonly UserCommandFactory _userCommandFactory;
         private readonly SubscriberStore _subscribers;
 
-        public ConsoleUi() : this(new CleverFactory())
+        public ConsoleUi() : this(new StandardUserCommandFactory())
         {}
 
         public ConsoleUi(UserCommandFactory userCommandFactory)
