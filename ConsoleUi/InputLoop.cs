@@ -21,7 +21,10 @@ namespace Tarnas.ConsoleUi
             string input = string.Empty;
             while ((input = _console.ReadLine()) != "/quit")
             {
-                _consoleUi.UserInput(input);
+                if (!string.IsNullOrWhiteSpace(input))
+                {
+                    _consoleUi.UserInput(input);
+                }
             }
         }
     }
