@@ -1,5 +1,7 @@
 namespace Tarnas.ConsoleUi
 {
+    using System.Linq;
+
     public class ConsoleUi
     {
         private readonly UserCommandFactory _userCommandFactory;
@@ -19,10 +21,7 @@ namespace Tarnas.ConsoleUi
             var userCommand = _userCommandFactory.CreateUserCommand(userInput);
             var subscribers = _subscribers.GetSubsFor(userCommand.Name);
 
-            foreach (var sub in subscribers)
-            {
-                sub.Execute(userCommand);
-            }
+            subscribers.ToList().ForEach(sub => sub.Execute(userCommand));
         }
 
         public void Subscribe(Subscriber subscriber, string commandName)

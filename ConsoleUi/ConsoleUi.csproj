@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FileReader.cs" />
     <Compile Include="InvalidCommandStringException.cs" />
     <Compile Include="StandardUserCommandFactory.cs" />
     <Compile Include="Column.cs" />
@@ -50,6 +51,7 @@
     <Compile Include="Subscriber.cs" />
     <Compile Include="SubscriberStore.cs" />
     <Compile Include="SystemConsole.cs" />
+    <Compile Include="SystemFileReader.cs" />
     <Compile Include="TableDisplay.cs" />
     <Compile Include="UserCommand.cs" />
     <Compile Include="UserCommandFactory.cs" />
