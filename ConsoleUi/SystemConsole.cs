@@ -1,6 +1,6 @@
 ﻿namespace Tarnas.ConsoleUi
 {
-    class SystemConsole : Console
+    public class SystemConsole : Console
     {
         public void WriteLine(string line)
         {
