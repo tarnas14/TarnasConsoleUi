@@ -14,16 +14,46 @@ namespace Tarnas.ConsoleUi
             var expressions = ExtractValidExpressions(sanitizedInput);
 
             var name = expressions.First();
-            var flags = expressions.Skip(1).Where(IsFlag).ToList();
-            flags.ForEach(flag => expressions.Remove(flag));
-            var commandParams = expressions.Skip(1);
+
+            var commandParams = expressions.Skip(1).ToList();
+
+            var flags = ExtractFlags(commandParams);
+
+            var namedParams = ExtractNamedParams(commandParams);
 
             return new UserCommand
             {
                 Name = name,
                 Params = commandParams.ToList(),
-                Flags = flags.Select(flag => flag.Substring(2)).ToList()
+                Flags = flags.Select(flag => flag.Substring(2)).ToList(),
+                NamedParams = namedParams
             };
+        }
+
+        private IDictionary<string, string> ExtractNamedParams(IList<string> commandParams)
+        {
+            var paramNames = commandParams.Where(param => param.StartsWith("-"));
+            
+            var namedParamsDictionary = new Dictionary<string, string>();
+
+            paramNames.ToList().ForEach(dashedParamName =>
+            {
+                string paramName = dashedParamName.Substring(1);
+                var index = commandParams.IndexOf(dashedParamName);
+
+                namedParamsDictionary.Add(paramName, commandParams[index + 1]);
+                commandParams.RemoveAt(index);
+                commandParams.RemoveAt(index);
+            });
+
+            return namedParamsDictionary;
+        }
+
+        private static IEnumerable<string> ExtractFlags(List<string> expressions)
+        {
+            var flags = expressions.Where(IsFlag).ToList();
+            flags.ForEach(flag => expressions.Remove(flag));
+            return flags;
         }
 
         private static string GetSanitizedInput(string userInput)

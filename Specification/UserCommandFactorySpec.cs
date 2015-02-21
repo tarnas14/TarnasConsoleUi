@@ -1,5 +1,6 @@
 ﻿namespace Specification
 {
+    using System;
     using NUnit.Framework;
     using Tarnas.ConsoleUi;
 
@@ -110,6 +111,37 @@
         {
             //when
             _factory.CreateUserCommand("/ something");
+        }
+
+        [Test]
+        public void ShouldExtractNamedParameters()
+        {
+            //given
+            const string expectedParamValue = "namedParamValue";
+            string userInputWithNamedParam = string.Format("/testName -namedParam {0}", expectedParamValue);
+            var userCommand = _factory.CreateUserCommand(userInputWithNamedParam);
+
+            //when
+            string output = String.Empty;
+            var hasValue = userCommand.TryGetParam("namedParam", out output);
+
+            //then
+            Assert.True(hasValue);
+            Assert.That(output, Is.EqualTo(expectedParamValue));
+        }
+
+        [Test]
+        public void NamedParamsShouldNotBeIncludedInTheRegularParamsList()
+        {
+            //given
+            const string namedParamValue = "namedParamValue";
+            string userInputWithNamedParam = string.Format("/testName -namedParam {0}", namedParamValue);
+
+            //when
+            var userCommand = _factory.CreateUserCommand(userInputWithNamedParam);
+
+            //then
+            Assert.False(userCommand.Params.Contains(namedParamValue));
         }
     }
 }
