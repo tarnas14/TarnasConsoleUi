@@ -88,29 +88,35 @@
         }
 
         [Test]
-        [ExpectedException(typeof(InvalidCommandStringException))]
         [TestCase("")]
         [TestCase("   ")]
         public void ShouldNotAcceptEmptyInput(string userInput)
         {
             //when
-            _factory.CreateUserCommand(userInput);
+            TestDelegate action = () => _factory.CreateUserCommand(userInput);
+
+            //then
+            Assert.That(action, Throws.Exception.TypeOf<InvalidCommandStringException>());
         }
 
         [Test]
-        [ExpectedException(typeof(InvalidCommandStringException))]
         public void ShouldNotAcceptInputsWithoutLeadingSlash()
         {
             //when
-            _factory.CreateUserCommand("something something");
+            TestDelegate action = () => _factory.CreateUserCommand("something something");
+
+            //then
+            Assert.That(action, Throws.Exception.TypeOf<NotACommandException>());
         }
 
         [Test]
-        [ExpectedException(typeof(InvalidCommandStringException))]
         public void ShouldNotAcceptInputsWithNullCommandName()
         {
             //when
-            _factory.CreateUserCommand("/ something");
+            TestDelegate action = () => _factory.CreateUserCommand("/ something");
+
+            //then
+            Assert.That(action, Throws.Exception.TypeOf<InvalidCommandStringException>());
         }
 
         [Test]

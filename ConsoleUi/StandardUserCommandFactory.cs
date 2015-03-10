@@ -87,15 +87,19 @@ namespace Tarnas.ConsoleUi
 
         private static void ValidateInput(string sanitizedUserInput)
         {
+            if (HasNoCommandPrefix(sanitizedUserInput))
+            {
+                throw new NotACommandException();
+            }
+
             if (string.IsNullOrWhiteSpace(sanitizedUserInput) ||
-                HasNoCommand(sanitizedUserInput) ||
                 HasEmptyCommandName(sanitizedUserInput))
             {
                 throw new InvalidCommandStringException();
             }
         }
 
-        private static bool HasNoCommand(string sanitizedUserInput)
+        private static bool HasNoCommandPrefix(string sanitizedUserInput)
         {
             return !sanitizedUserInput.StartsWith("/");
         }
