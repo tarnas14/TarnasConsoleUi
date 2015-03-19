@@ -76,7 +76,7 @@
         public void ShouldRecognizeFlagByTwoDashes()
         {
             //given
-            const string userInput = "/testName --flag";
+            const string userInput = "/testName --f";
 
             //when
             var userCommand = _factory.CreateUserCommand(userInput);
@@ -84,7 +84,22 @@
             //then
             Assert.That(userCommand.Params.Count, Is.EqualTo(0));
             Assert.That(userCommand.Flags.Count, Is.EqualTo(1));
-            Assert.That(userCommand.Flags, Contains.Item("flag"));
+            Assert.That(userCommand.Flags, Contains.Item('f'));
+        }
+
+        [Test]
+        public void ShouldSplitFlagExpressionIntoSingleCharacterFlags()
+        {
+            //given
+            const string userInput = "/testName --ci";
+
+            //when
+            var userCommand = _factory.CreateUserCommand(userInput);
+
+            //then
+            Assert.That(userCommand.Flags.Count, Is.EqualTo(2));
+            Assert.That(userCommand.HasFlag('c'));
+            Assert.That(userCommand.HasFlag('i'));
         }
 
         [Test]

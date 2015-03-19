@@ -25,7 +25,7 @@ namespace Tarnas.ConsoleUi
             {
                 Name = name,
                 Params = commandParams.ToList(),
-                Flags = flags.Select(flag => flag.Substring(2)).ToList(),
+                Flags = flags,
                 NamedParams = namedParams
             };
         }
@@ -49,10 +49,14 @@ namespace Tarnas.ConsoleUi
             return namedParamsDictionary;
         }
 
-        private static IEnumerable<string> ExtractFlags(List<string> expressions)
+        private static IList<char> ExtractFlags(List<string> expressions)
         {
-            var flags = expressions.Where(IsFlag).ToList();
-            flags.ForEach(flag => expressions.Remove(flag));
+            var flagExpressions = expressions.Where(IsFlag).ToList();
+            flagExpressions.ForEach(flag => expressions.Remove(flag));
+
+            var flags = new List<char>();
+            flagExpressions.ToList().ForEach(flagExpression => flags.AddRange(flagExpression.Substring(2).ToCharArray()));
+
             return flags;
         }
 
@@ -87,15 +91,15 @@ namespace Tarnas.ConsoleUi
 
         private static void ValidateInput(string sanitizedUserInput)
         {
-            if (HasNoCommandPrefix(sanitizedUserInput))
-            {
-                throw new NotACommandException();
-            }
-
             if (string.IsNullOrWhiteSpace(sanitizedUserInput) ||
                 HasEmptyCommandName(sanitizedUserInput))
             {
                 throw new InvalidCommandStringException();
+            }
+
+            if (HasNoCommandPrefix(sanitizedUserInput))
+            {
+                throw new NotACommandException();
             }
         }
 
