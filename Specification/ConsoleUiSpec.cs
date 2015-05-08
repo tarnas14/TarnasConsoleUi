@@ -24,20 +24,6 @@
         }
 
         [Test]
-        public void ShouldIgnoreUserInputThatIsNotACommand()
-        {
-            //given
-            _userCommandFactoryMock.Setup(factory => factory.CreateUserCommand(It.IsAny<string>()))
-                .Throws<NotACommandException>();
-
-            //when
-            _consoleUi.UserInput("not a command input");
-
-            //then
-            Assert.Pass();
-        }
-
-        [Test]
         public void ShouldCallAllSubsForSpecificCommand()
         {
             //given

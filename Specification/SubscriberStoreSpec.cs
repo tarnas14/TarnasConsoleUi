@@ -23,5 +23,19 @@
             Assert.That(subs.Count(), Is.EqualTo(1));
             Assert.That(subs.First(), Is.EqualTo(subMock.Object));
         }
+
+        [Test]
+        public void ShouldThrowOnCommandNotInRegister()
+        {
+            //given
+            const string notRegisteredCommand = "/asdf";
+            var subStore = new SubscriberStore();
+
+            //when
+            TestDelegate gettingSubscribersForUnregisteredCommand = () => subStore.GetSubsFor(notRegisteredCommand);
+
+            //then
+            Assert.That(gettingSubscribersForUnregisteredCommand, Throws.InstanceOf<NobodyListensToThisCommand>());
+        }
     }
 }

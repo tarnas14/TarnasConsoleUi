@@ -27,7 +27,7 @@ namespace Tarnas.ConsoleUi
         {
             if (!_subDictionary.ContainsKey(commandName))
             {
-                return new Collection<Subscriber>();
+                throw new NobodyListensToThisCommand(commandName);
             }
 
             return _subDictionary[commandName];

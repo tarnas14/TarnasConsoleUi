@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="FileReader.cs" />
     <Compile Include="InvalidCommandStringException.cs" />
+    <Compile Include="NobodyListensToThisCommand.cs" />
     <Compile Include="NotACommandException.cs" />
     <Compile Include="StandardUserCommandFactory.cs" />
     <Compile Include="Column.cs" />
@@ -54,6 +55,7 @@
     <Compile Include="SystemConsole.cs" />
     <Compile Include="SystemFileReader.cs" />
     <Compile Include="TableDisplay.cs" />
+    <Compile Include="TarnasConsoleUiException.cs" />
     <Compile Include="UserCommand.cs" />
     <Compile Include="UserCommandFactory.cs" />
   </ItemGroup>

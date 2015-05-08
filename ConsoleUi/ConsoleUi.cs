@@ -18,17 +18,10 @@ namespace Tarnas.ConsoleUi
 
         public void UserInput(string userInput)
         {
-            try
-            {
-                var userCommand = _userCommandFactory.CreateUserCommand(userInput);
-                var subscribers = _subscribers.GetSubsFor(userCommand.Name);
+            var userCommand = _userCommandFactory.CreateUserCommand(userInput);
+            var subscribers = _subscribers.GetSubsFor(userCommand.Name);
 
-                subscribers.ToList().ForEach(sub => sub.Execute(userCommand));
-            }
-            catch (NotACommandException)
-            {
-                //for now we are ignoring user input that is not a command
-            }
+            subscribers.ToList().ForEach(sub => sub.Execute(userCommand));
         }
 
         public void Subscribe(Subscriber subscriber, string commandName)
